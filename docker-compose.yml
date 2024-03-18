@@ -1,0 +1,14 @@
+version: "3.1"
+services:
+  nodejs:
+    image: tradingpnlcalculator-image
+    container_name: tradingpnlcalculator-container
+    build: .
+    volumes:
+      - .:/root/trading-pnl-calculator
+      - /root/binance-pnl/node_modules
+      - /root/binance-pnl/.next
+    ports:
+      - "3001:3000"
+    tty: true
+    stdin_open: true
