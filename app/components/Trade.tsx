@@ -1,7 +1,16 @@
 "use client";
-import { updateTrade, deleteTrade } from "@/lib/features/trades/tradesSlice";
+import {
+  updateTrade,
+  deleteTrade,
+  incrementPrice,
+  decrementPrice,
+  incrementAmount,
+  decrementAmount,
+} from "@/lib/features/trades/tradesSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import type { TradeState } from "@/lib/features/trades/tradesSlice";
+import Type from "./Type";
+import InputNumber from "./InputNumber";
 
 interface ITrade {
   data: TradeState;
@@ -10,41 +19,56 @@ interface ITrade {
 export default function Trade({ data }: ITrade) {
   const dispatch = useAppDispatch();
   return (
-    <div className="flex ">
-      <label htmlFor={`type-${data.id}`}>Type</label>
-      <select
-        id={`type-${data.id}`}
-        onChange={(e) =>
-          dispatch(
-            updateTrade({ ...data, type: e.target.value as "buy" | "sell" })
-          )
-        }
-        value={data.type}
-      >
-        <option value="buy">Buy</option>
-        <option value="sell">Sell</option>
-      </select>
-      <label htmlFor={`price-${data.id}`}>Price :</label>
-      <input
-        type="number"
-        id={`price-${data.id}`}
-        onChange={(e) =>
-          dispatch(updateTrade({ ...data, price: parseFloat(e.target.value) }))
-        }
-        value={data.price}
-      />
-      <label htmlFor={`amount-${data.id}`}>Amount :</label>
-      <input
-        type="number"
-        id={`amount-${data.id}`}
-        onChange={(e) =>
-          dispatch(updateTrade({ ...data, amount: parseFloat(e.target.value) }))
-        }
-        value={data.amount}
-      />
-      <button onClick={() => dispatch(deleteTrade(data.id))}>
-        Delete trade
-      </button>
-    </div>
+    <tr className="w-full flex flex-row text-xs text-slate-500 tracking-wide border-b-[1px] last:border-none p-2 gap-2">
+      <td className="w-[30%] text-left font-semibold">
+        <Type id={data.id} />
+      </td>
+      <td className="w-[30%] text-left font-semibold">
+        <InputNumber
+          onChange={(e) => {
+            dispatch(
+              updateTrade({
+                ...data,
+                price: e.target.value,
+              })
+            );
+          }}
+          onIncrement={() => {
+            dispatch(incrementPrice(data.id));
+          }}
+          onDecrement={() => {
+            dispatch(decrementPrice(data.id));
+          }}
+          value={data.price}
+        />
+      </td>
+      <td className="w-[30%] text-left font-semibold">
+        <InputNumber
+          onChange={(e) => {
+            dispatch(
+              updateTrade({
+                ...data,
+                amount: e.target.value,
+              })
+            );
+          }}
+          onIncrement={() => {
+            dispatch(incrementAmount(data.id));
+          }}
+          onDecrement={() => {
+            dispatch(decrementAmount(data.id));
+          }}
+          value={data.amount}
+        />
+      </td>
+      <td className="w-[10%] flex">
+        <button
+          onClick={() => dispatch(deleteTrade(data.id))}
+          className="bg-slate-50 px-4 rounded-md hover:bg-red-100 hover:text-red-500"
+        >
+          Delete trade
+        </button>
+      </td>
+    </tr>
   );
 }

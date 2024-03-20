@@ -5,8 +5,8 @@ import type { PayloadAction } from "@reduxjs/toolkit/dist/react";
 export interface TradeState {
   id: string;
   type: "buy" | "sell";
-  price: number;
-  amount: number;
+  price: string;
+  amount: string;
 }
 
 const initialState: TradeState[] = [];
@@ -19,8 +19,8 @@ const tradesSlice = createSlice({
       state.push({
         id: uuid(),
         type: "buy",
-        price: 0,
-        amount: 0,
+        price: "0",
+        amount: "0",
       });
     },
     deleteTrade(state, action: PayloadAction<string>) {
@@ -38,12 +38,73 @@ const tradesSlice = createSlice({
         return trade;
       });
     },
+    switchType(state, action: PayloadAction<string>) {
+      return state.map((trade) => {
+        if (trade.id === action.payload) {
+          return { ...trade, type: trade.type === "buy" ? "sell" : "buy" };
+        }
+        return trade;
+      });
+    },
+    incrementPrice(state, action: PayloadAction<string>) {
+      return state.map((trade) => {
+        if (trade.id === action.payload) {
+          return { ...trade, price: (parseFloat(trade.price) + 1).toString() };
+        }
+        return trade;
+      });
+    },
+    decrementPrice(state, action: PayloadAction<string>) {
+      return state.map((trade) => {
+        if (trade.id === action.payload) {
+          return { ...trade, price: (parseFloat(trade.price) - 1).toString() };
+        }
+        return trade;
+      });
+    },
+    incrementAmount(state, action: PayloadAction<string>) {
+      return state.map((trade) => {
+        if (trade.id === action.payload) {
+          return {
+            ...trade,
+            amount: (parseFloat(trade.amount) + 1).toString(),
+          };
+        }
+        return trade;
+      });
+    },
+    decrementAmount(state, action: PayloadAction<string>) {
+      return state.map((trade) => {
+        if (trade.id === action.payload) {
+          return {
+            ...trade,
+            amount: (parseFloat(trade.amount) - 1).toString(),
+          };
+        }
+        return trade;
+      });
+    },
   },
   selectors: {
     selectTrades: (trades) => trades,
+    selectTypeById: (trades, id) => {
+      const trade = trades.find((trade) => trade.id === id);
+      if (trade) {
+        return trade.type;
+      }
+    },
   },
 });
 
-export const { addTrade, updateTrade, deleteTrade } = tradesSlice.actions;
-export const { selectTrades } = tradesSlice.selectors;
+export const {
+  addTrade,
+  updateTrade,
+  deleteTrade,
+  switchType,
+  incrementPrice,
+  decrementPrice,
+  incrementAmount,
+  decrementAmount,
+} = tradesSlice.actions;
+export const { selectTrades, selectTypeById } = tradesSlice.selectors;
 export default tradesSlice.reducer;
