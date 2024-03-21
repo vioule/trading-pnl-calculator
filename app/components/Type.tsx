@@ -29,7 +29,7 @@ export default function Type({ id }: IType) {
       </span>
     );
   return (
-    <div className="w-full h-full flex gap-4">
+    <div className="w-full h-full flex gap-2">
       <button
         className="px-2 rounded-md hover:bg-slate-100 bg-slate-50"
         onClick={() => dispatch(switchType(id))}

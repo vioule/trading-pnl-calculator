@@ -7,8 +7,8 @@ export default function Table() {
 
   return (
     <table className="w-full flex flex-col border-[1px] rounded-md border-slate-200">
-      <thead className="bg-slate-50">
-        <tr className="w-full flex flex-row text-xs text-slate-400 tracking-wide border-b-[1px] p-4 gap-2">
+      <thead className="">
+        <tr className="w-full flex flex-row text-xs text-slate-500 tracking-wide border-b-[1px] p-4 gap-2">
           <th scope="col" className="w-[30%] text-left font-semibold">
             Type
           </th>

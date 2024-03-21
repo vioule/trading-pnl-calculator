@@ -107,4 +107,4 @@ export const {
   decrementAmount,
 } = tradesSlice.actions;
 export const { selectTrades, selectTypeById } = tradesSlice.selectors;
-export default tradesSlice.reducer;
+export default tradesSlice;
