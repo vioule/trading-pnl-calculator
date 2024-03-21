@@ -40,7 +40,7 @@ export default function InputNumber({
     >
       <input
         type="number"
-        className={`rounded-sm p-2 focus:outline-none w-full h-10 text-sm font-normal ${
+        className={`rounded-sm p-2 pl-[0.9rem] focus:outline-none w-full h-10 text-sm font-normal ${
           isActive ? "bg-slate-50 " : ""
         }`}
         onChange={onChange}

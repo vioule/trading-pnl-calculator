@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Work_Sans } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
-const inter = Inter({
+const worksans = Work_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["100", "200", "300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={worksans.className}>{children}</body>
       </html>
     </StoreProvider>
   );

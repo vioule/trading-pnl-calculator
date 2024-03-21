@@ -24,7 +24,7 @@ export default function Trade({ data, pnl }: ITrade) {
       <td className="w-[22.5%] text-left font-semibold">
         <Type id={data.id} />
       </td>
-      <td className="w-[22.5%] text-left font-semibold">
+      <td className="relative w-[22.5%] text-left font-semibold">
         <InputNumber
           onChange={(e) => {
             dispatch(
@@ -42,6 +42,9 @@ export default function Trade({ data, pnl }: ITrade) {
           }}
           value={data.price}
         />
+        <span className="absolute left-[0.3rem] top-0 h-full flex items-center text-orange-500 font-light text-sm">
+          $
+        </span>
       </td>
       <td className="w-[22.5%] text-left font-semibold">
         <InputNumber
@@ -62,9 +65,14 @@ export default function Trade({ data, pnl }: ITrade) {
           value={data.amount}
         />
       </td>
-      <td className="w-[22.5%] text-left font-normal flex items-center text-sm">
+      <td className="w-[22.5%] text-left font-medium flex items-center text-sm">
         <span className={`${pnl > 0 ? "text-green-500" : "text-red-500"}`}>
-          {pnl ? `$${pnl}` : null}
+          {pnl ? (
+            <>
+              <span className="text-orange-500 font-light pr-[0.1rem]">$</span>
+              {pnl}
+            </>
+          ) : null}
         </span>
       </td>
       <td className="w-[10%] flex">

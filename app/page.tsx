@@ -9,6 +9,8 @@ import {
   selectCurrentPrice,
   updateCurrentPrice,
 } from "@/lib/features/currentPrice/currentPriceSlice";
+import Card from "./components/Card";
+import CurrentAssetPrice from "./components/CurrentAssetPrice";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -62,83 +64,44 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col px-10 py-4 gap-4 justify-between">
-      <h1 className="text-xl text-slate-300">Pnl position calculator</h1>
+      <h1 className="text-xl text-slate-300 font-light">
+        <span className="text-orange-500 font-semibold">PNL </span>position
+        calculator
+      </h1>
       <div>
-        <label className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-          Current Price
-        </label>
-        <InputNumber
-          onChange={(e) => dispatch(updateCurrentPrice(e.target.value))}
-          onIncrement={() => dispatch(incrementCurrentPrice())}
-          onDecrement={() => dispatch(decrementCurrentPrice())}
-          value={currentPrice}
-        />
-        <div className="flex gap-4 mt-4">
-          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Money Invest
-            </span>
-            <span className="font-bold text-xl text-slate-600 tracking-wide">{`$${size}`}</span>
+        <CurrentAssetPrice />
+        <div className="border-[1px] rounded-3xl border-slate-100 bg-slate-100 flex flex-col mt-4">
+          <div className="flex ">
+            <Card
+              title="Current position size"
+              value={currentSize}
+              moneySymbol
+              color={false}
+            />
+            <Card title="Money invest" value={size} moneySymbol color={false} />
+            <Card
+              title="Total amount"
+              value={totalAmount}
+              moneySymbol={false}
+              color={false}
+            />
+            <Card
+              title="Avg entry price"
+              value={totalAverage}
+              moneySymbol
+              color={false}
+            />
           </div>
-          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Total Amount
-            </span>
-            <span className="font-bold text-xl text-slate-600 tracking-wide">
-              {totalAmount}
-            </span>
-          </div>
-          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Average Entry price
-            </span>
-            <span className="font-bold text-xl text-slate-600 tracking-wide">{`$${totalAverage}`}</span>
-          </div>
-          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Current Position size
-            </span>
-            <span className="font-bold text-xl text-slate-600 tracking-wide">{`$${currentSize}`}</span>
-          </div>
-        </div>
-        <div className="flex gap-4 mt-4">
-          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Overall PNL
-            </span>
-            <span
-              className={`font-bold text-xl tracking-wide ${
-                overallPnl > 0 ? "text-green-500" : "text-red-500"
-              }`}
-            >{`$${overallPnl}`}</span>
-          </div>
-          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Pnl
-            </span>
-            <span
-              className={`font-bold text-xl tracking-wide ${
-                pnl > 0 ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {`$${pnl}`}
-            </span>
-          </div>
-          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Latent Pnl
-            </span>
-            <span
-              className={`font-bold text-xl tracking-wide ${
-                latentPnl > 0 ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {`$${latentPnl}`}
-            </span>
+          <div className="flex bg-white rounded-3xl">
+            <Card title="Overall pnl" value={overallPnl} moneySymbol color />
+            <Card title="Pnl" value={pnl} moneySymbol color />
+            <Card title="Latent pnl" value={latentPnl} moneySymbol color />
           </div>
         </div>
       </div>
-      <Table pnls={pnls} />
+      <div className="flex-grow">
+        <Table pnls={pnls} />
+      </div>
       <button
         onClick={() => dispatch(addTrade())}
         className="bg-slate-100 p-4 rounded-lg font-bold"

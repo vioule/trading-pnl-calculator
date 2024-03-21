@@ -18,16 +18,7 @@ export default function Type({ id }: IType) {
     ) : (
       <MdOutlineArrowDropDown size={20} className="text-red-500" />
     );
-  const description =
-    type === "buy" ? (
-      <span className="bg-green-50 px-4 text-green-500 border-[1px] rounded-md border-green-300 flex items-center">
-        Buy
-      </span>
-    ) : (
-      <span className="bg-red-50 px-4 py-2 text-red-500 border-[1px] rounded-md border-red-300 flex items-center">
-        Sell
-      </span>
-    );
+  const color = type === "buy" ? "green" : "red";
   return (
     <div className="w-full h-full flex gap-2">
       <button
@@ -36,7 +27,11 @@ export default function Type({ id }: IType) {
       >
         {icon}
       </button>
-      {description}
+      <span
+        className={`bg-${color}-500 px-4 py-2 text-white rounded-md flex items-center capitalize`}
+      >
+        {type}
+      </span>
     </div>
   );
 }
