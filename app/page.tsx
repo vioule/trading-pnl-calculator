@@ -46,9 +46,19 @@ export default function Home() {
           parseFloat(trade.amount) * totalAverages[i - 1];
   });
 
+  let pnl = 0;
+  if (pnls.length) {
+    pnl = pnls.reduce((a, b) => a + b);
+  }
+
   const totalAverage = totalAverages[totalAverages.length - 1];
   const currentSize = parseFloat(currentPrice) * totalAmount;
   const size = totalAverage * totalAmount;
+
+  const latentPnl =
+    totalAmount * parseFloat(currentPrice) - totalAmount * totalAverage;
+
+  const overallPnl = latentPnl + pnl;
 
   return (
     <main className="flex min-h-screen flex-col px-10 py-4 gap-4 justify-between">
@@ -89,6 +99,42 @@ export default function Home() {
               Current Position size
             </span>
             <span className="font-bold text-xl text-slate-600 tracking-wide">{`$${currentSize}`}</span>
+          </div>
+        </div>
+        <div className="flex gap-4 mt-4">
+          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
+            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+              Overall PNL
+            </span>
+            <span
+              className={`font-bold text-xl tracking-wide ${
+                overallPnl > 0 ? "text-green-500" : "text-red-500"
+              }`}
+            >{`$${overallPnl}`}</span>
+          </div>
+          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
+            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+              Pnl
+            </span>
+            <span
+              className={`font-bold text-xl tracking-wide ${
+                pnl > 0 ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {`$${pnl}`}
+            </span>
+          </div>
+          <div className="border-slate-200 border-[1px] py-6 px-8 rounded-lg flex flex-col gap-4">
+            <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+              Latent Pnl
+            </span>
+            <span
+              className={`font-bold text-xl tracking-wide ${
+                latentPnl > 0 ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {`$${latentPnl}`}
+            </span>
           </div>
         </div>
       </div>
