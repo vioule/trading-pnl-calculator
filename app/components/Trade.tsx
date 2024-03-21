@@ -14,16 +14,17 @@ import InputNumber from "./InputNumber";
 
 interface ITrade {
   data: TradeState;
+  pnl: number;
 }
 
-export default function Trade({ data }: ITrade) {
+export default function Trade({ data, pnl }: ITrade) {
   const dispatch = useAppDispatch();
   return (
     <tr className="w-full flex flex-row text-xs text-slate-500 tracking-wide border-b-[1px] last:border-none p-2 gap-2">
-      <td className="w-[30%] text-left font-semibold">
+      <td className="w-[22.5%] text-left font-semibold">
         <Type id={data.id} />
       </td>
-      <td className="w-[30%] text-left font-semibold">
+      <td className="w-[22.5%] text-left font-semibold">
         <InputNumber
           onChange={(e) => {
             dispatch(
@@ -42,7 +43,7 @@ export default function Trade({ data }: ITrade) {
           value={data.price}
         />
       </td>
-      <td className="w-[30%] text-left font-semibold">
+      <td className="w-[22.5%] text-left font-semibold">
         <InputNumber
           onChange={(e) => {
             dispatch(
@@ -60,6 +61,11 @@ export default function Trade({ data }: ITrade) {
           }}
           value={data.amount}
         />
+      </td>
+      <td className="w-[22.5%] text-left font-normal flex items-center text-sm">
+        <span className={`${pnl > 0 ? "text-green-500" : "text-red-500"}`}>
+          {pnl ? `$${pnl}` : null}
+        </span>
       </td>
       <td className="w-[10%] flex">
         <button

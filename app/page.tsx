@@ -38,6 +38,14 @@ export default function Home() {
       );
     }
   });
+
+  const pnls = trades.map((trade, i) => {
+    return trade.type === trades[0].type
+      ? 0
+      : parseFloat(trade.amount) * parseFloat(trade.price) -
+          parseFloat(trade.amount) * totalAverages[i - 1];
+  });
+
   const totalAverage = totalAverages[totalAverages.length - 1];
   const currentSize = parseFloat(currentPrice) * totalAmount;
   const size = totalAverage * totalAmount;
@@ -84,7 +92,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <Table />
+      <Table pnls={pnls} />
       <button
         onClick={() => dispatch(addTrade())}
         className="bg-slate-100 p-4 rounded-lg font-bold"

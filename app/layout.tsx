@@ -3,7 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
-const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "600"] });
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
