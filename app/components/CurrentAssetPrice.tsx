@@ -28,15 +28,15 @@ export default function CurrentAssetPrice() {
   };
 
   return (
-    <div className="bg-slate-100 rounded-xl p-4">
+    <div className="py-6 px-8 rounded-lg flex flex-col gap-[0.2rem]">
       <label
-        className="text-sm font-medium text-slate-400 uppercase tracking-wider"
+        className="text-[0.8rem] font-normal text-slate-500 uppercase"
         htmlFor="currentAssetPrice"
       >
         Current asset price
       </label>
       <div
-        className="relative flex max-w-[200px] mt-[0.4rem]"
+        className="relative flex max-w-[200px]"
         ref={ref}
         onFocus={() => {
           setIsActive(true);
@@ -44,8 +44,8 @@ export default function CurrentAssetPrice() {
       >
         <input
           type="number"
-          className={`rounded-md p-2 pl-[1.25rem] focus:outline-none w-full h-10 font-medium text-xl tracking-wider text-slate-500 bg-slate-50 ${
-            isActive ? "bg-white " : ""
+          className={`rounded-md px-2 pl-[1.25rem] focus:outline-none w-full font-medium text-xl tracking-wider text-black ${
+            isActive ? "bg-orange-100 " : "bg-orange-50 "
           }`}
           onChange={(e) => dispatch(updateCurrentPrice(e.target.value))}
           value={currentPrice}

@@ -2,15 +2,10 @@
 import { addTrade, selectTrades } from "@/lib/features/trades/tradesSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Table from "./components/Table";
-import InputNumber from "./components/InputNumber";
-import {
-  decrementCurrentPrice,
-  incrementCurrentPrice,
-  selectCurrentPrice,
-  updateCurrentPrice,
-} from "@/lib/features/currentPrice/currentPriceSlice";
+import { selectCurrentPrice } from "@/lib/features/currentPrice/currentPriceSlice";
 import Card from "./components/Card";
 import CurrentAssetPrice from "./components/CurrentAssetPrice";
+import PositionType from "./components/PositionType";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -42,10 +37,14 @@ export default function Home() {
   });
 
   const pnls = trades.map((trade, i) => {
-    return trade.type === trades[0].type
-      ? 0
-      : parseFloat(trade.amount) * parseFloat(trade.price) -
-          parseFloat(trade.amount) * totalAverages[i - 1];
+    if (trade.type === trades[0].type) {
+      return 0;
+    }
+    return trades[0].type === "buy"
+      ? parseFloat(trade.amount) * parseFloat(trade.price) -
+          parseFloat(trade.amount) * totalAverages[i - 1]
+      : parseFloat(trade.amount) * totalAverages[i - 1] -
+          parseFloat(trade.amount) * parseFloat(trade.price);
   });
 
   let pnl = 0;
@@ -53,14 +52,17 @@ export default function Home() {
     pnl = pnls.reduce((a, b) => a + b);
   }
 
-  const totalAverage = totalAverages[totalAverages.length - 1];
+  const totalAverage = totalAverages[totalAverages.length - 1] || 0;
   const currentSize = parseFloat(currentPrice) * totalAmount;
-  const size = totalAverage * totalAmount;
+  const size = totalAverage * totalAmount || 0;
 
   const latentPnl =
-    totalAmount * parseFloat(currentPrice) - totalAmount * totalAverage;
+    (trades[0].type === "buy"
+      ? totalAmount * parseFloat(currentPrice) - totalAmount * totalAverage
+      : totalAmount * totalAverage - totalAmount * parseFloat(currentPrice)) ||
+    0;
 
-  const overallPnl = latentPnl + pnl;
+  const overallPnl = latentPnl + pnl || 0;
 
   return (
     <main className="flex min-h-screen flex-col px-10 py-4 gap-4 justify-between">
@@ -69,9 +71,9 @@ export default function Home() {
         calculator
       </h1>
       <div>
-        <CurrentAssetPrice />
-        <div className="border-[1px] rounded-3xl border-slate-100 bg-slate-100 flex flex-col mt-4">
-          <div className="flex ">
+        <div className="border-[1px] rounded-3xl border-slate-200 flex flex-col mt-4">
+          <div className="flex items-center px-6 ">
+            <PositionType />
             <Card
               title="Current position size"
               value={currentSize}
@@ -92,7 +94,8 @@ export default function Home() {
               color={false}
             />
           </div>
-          <div className="flex bg-white rounded-3xl">
+          <div className="flex bg-white border-t-[1px] rounded-b-3xl">
+            <CurrentAssetPrice />
             <Card title="Overall pnl" value={overallPnl} moneySymbol color />
             <Card title="Pnl" value={pnl} moneySymbol color />
             <Card title="Latent pnl" value={latentPnl} moneySymbol color />
@@ -104,7 +107,7 @@ export default function Home() {
       </div>
       <button
         onClick={() => dispatch(addTrade())}
-        className="bg-slate-100 p-4 rounded-lg font-bold"
+        className="bg-slate-50 text-slate-500 p-4 rounded-lg font-medium hover:bg-slate-100 hover:text-slate-600"
       >
         Add trade
       </button>

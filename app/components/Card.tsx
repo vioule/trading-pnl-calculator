@@ -6,7 +6,7 @@ interface ICard {
 }
 
 export default function Card({ title, value, moneySymbol, color }: ICard) {
-  let textcolor = "text-slate-600";
+  let textcolor = "text-black";
   if (color) {
     textcolor = value > 0 ? "text-green-500" : "text-red-500";
   }
