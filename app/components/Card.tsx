@@ -11,7 +11,7 @@ export default function Card({ title, value, moneySymbol, color }: ICard) {
     textcolor = value > 0 ? "text-green-500" : "text-red-500";
   }
   return (
-    <div className="py-6 px-8 rounded-lg flex flex-col gap-[0.2rem]">
+    <div className="rounded-lg flex flex-col gap-[0.2rem]">
       <span className="text-[0.8rem] font-normal text-slate-500 uppercase">
         {title}
       </span>

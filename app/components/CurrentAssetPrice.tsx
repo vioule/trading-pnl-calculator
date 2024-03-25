@@ -28,7 +28,7 @@ export default function CurrentAssetPrice() {
   };
 
   return (
-    <div className="py-6 px-8 rounded-lg flex flex-col gap-[0.2rem]">
+    <div className="rounded-lg flex flex-col gap-[0.2rem]">
       <label
         className="text-[0.8rem] font-normal text-slate-500 uppercase"
         htmlFor="currentAssetPrice"

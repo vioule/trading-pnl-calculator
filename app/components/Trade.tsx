@@ -11,6 +11,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import type { TradeState } from "@/lib/features/trades/tradesSlice";
 import Type from "./Type";
 import InputNumber from "./InputNumber";
+import { MdDelete } from "react-icons/md";
 
 interface ITrade {
   data: TradeState;
@@ -80,7 +81,8 @@ export default function Trade({ data, pnl }: ITrade) {
           onClick={() => dispatch(deleteTrade(data.id))}
           className="bg-slate-50 px-4 rounded-md hover:bg-red-100 hover:text-red-500"
         >
-          Delete trade
+          <span className=" max-sm:hidden">Delete trade</span>
+          <MdDelete className="hidden max-sm:block" />
         </button>
       </td>
     </tr>

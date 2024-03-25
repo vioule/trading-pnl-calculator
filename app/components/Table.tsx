@@ -10,7 +10,7 @@ export default function Table({ pnls }: ITable) {
   const trades = useAppSelector(selectTrades);
 
   return (
-    <table className="w-full flex flex-col border-[1px] rounded-md border-slate-200 bg-white">
+    <table className="w-full flex flex-col border-[1px] rounded-md border-slate-200 bg-white min-w-[250px]">
       <thead className="">
         <tr className="w-full flex flex-row text-xs text-slate-500 border-b-[1px] p-4 gap-2">
           <th scope="col" className="w-[22.5%] text-left font-medium">

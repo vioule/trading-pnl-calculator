@@ -20,8 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <StoreProvider>
-      <html lang="en">
-        <body className={worksans.className}>{children}</body>
+      <html
+        lang="en"
+        className={`${worksans.className} max-sm:text-[10px] max-xl:text-[14px] text-[18px]`}
+      >
+        <body>{children}</body>
       </html>
     </StoreProvider>
   );

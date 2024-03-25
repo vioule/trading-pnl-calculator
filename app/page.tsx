@@ -85,14 +85,14 @@ export default function Home() {
   const overallPnl = parseFloat((latentPnl + pnl).toFixed(2)) || 0;
 
   return (
-    <main className="flex max-h-[calc(100vh-4rem)] flex-col px-10 py-4 gap-4 justify-between overflow-y-auto">
+    <main className="flex max-h-[calc(100vh-4rem)] flex-col px-10 max-sm:px-5 py-4 gap-4 justify-between overflow-auto min-w-[300px]">
       <h1 className="text-xl text-slate-300 font-light">
         <span className="text-orange-500 font-semibold">PNL </span>position
         calculator
       </h1>
       <div>
         <div className="border-[1px] rounded-3xl border-slate-200 flex flex-col mt-4">
-          <div className="flex items-center px-6 ">
+          <div className="flex items-center flex-wrap p-8 gap-8">
             <PositionType />
             <Card
               title="Current position size"
@@ -114,7 +114,7 @@ export default function Home() {
               color={false}
             />
           </div>
-          <div className="flex bg-white border-t-[1px] rounded-b-3xl">
+          <div className="flex flex-wrap bg-white border-t-[1px] rounded-b-3xl gap-8 p-8">
             <CurrentAssetPrice />
             <Card title="Overall pnl" value={overallPnl} moneySymbol color />
             <Card title="Pnl" value={pnl} moneySymbol color />
