@@ -11,15 +11,13 @@ export interface TradeState {
 
 let initialState: TradeState[] = [];
 
-const data = sessionStorage.getItem("data");
-if (data) {
-  initialState = JSON.parse(data).trades;
-}
-
 const tradesSlice = createSlice({
   name: "trades",
   initialState,
   reducers: {
+    setTrades(state, action: PayloadAction<TradeState[]>) {
+      return action.payload;
+    },
     addTrade(state) {
       state.push({
         id: uuid(),
@@ -102,6 +100,7 @@ const tradesSlice = createSlice({
 });
 
 export const {
+  setTrades,
   addTrade,
   updateTrade,
   deleteTrade,

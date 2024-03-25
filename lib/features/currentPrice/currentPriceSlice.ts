@@ -3,11 +3,6 @@ import type { PayloadAction } from "@reduxjs/toolkit/dist/react";
 
 let initialState = "0";
 
-const data = sessionStorage.getItem("data");
-if (data) {
-  initialState = JSON.parse(data).currentPrice;
-}
-
 const currentPriceSlice = createSlice({
   name: "currentPrice",
   initialState,
