@@ -70,7 +70,7 @@ export default function Trade({ data, pnl }: ITrade) {
           {pnl ? (
             <>
               <span className="text-orange-500 font-light pr-[0.1rem]">$</span>
-              {pnl}
+              {parseFloat(pnl.toFixed(2))}
             </>
           ) : null}
         </span>

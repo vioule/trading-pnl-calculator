@@ -11,6 +11,12 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const trades = useAppSelector(selectTrades);
   const currentPrice = useAppSelector(selectCurrentPrice);
+
+  let toFixed = 2;
+  if (trades.length > 0 && trades[0].price.includes(".")) {
+    toFixed = trades[0].price.split(".")[1].length;
+  }
+
   let totalAmounts: number[] = [];
   let totalAmount = 0;
   trades.map((trade) =>
@@ -49,23 +55,37 @@ export default function Home() {
 
   let pnl = 0;
   if (pnls.length) {
-    pnl = pnls.reduce((a, b) => a + b);
+    pnl = parseFloat(pnls.reduce((a, b) => a + b).toFixed(2));
   }
 
   const totalAverage = totalAverages[totalAverages.length - 1] || 0;
-  const currentSize = parseFloat(currentPrice) * totalAmount;
-  const size = totalAverage * totalAmount || 0;
+  const currentSize = parseFloat(
+    (parseFloat(currentPrice) * totalAmount).toFixed(2)
+  );
+  const size = parseFloat((totalAverage * totalAmount).toFixed(2)) || 0;
 
-  const latentPnl =
-    (trades[0].type === "buy"
-      ? totalAmount * parseFloat(currentPrice) - totalAmount * totalAverage
-      : totalAmount * totalAverage - totalAmount * parseFloat(currentPrice)) ||
-    0;
+  let latentPnl = 0;
+  if (trades.length > 0) {
+    latentPnl =
+      trades[0].type === "buy"
+        ? parseFloat(
+            (
+              totalAmount * parseFloat(currentPrice) -
+              totalAmount * totalAverage
+            ).toFixed(2)
+          )
+        : parseFloat(
+            (
+              totalAmount * totalAverage -
+              totalAmount * parseFloat(currentPrice)
+            ).toFixed(2)
+          );
+  }
 
-  const overallPnl = latentPnl + pnl || 0;
+  const overallPnl = parseFloat((latentPnl + pnl).toFixed(2)) || 0;
 
   return (
-    <main className="flex min-h-screen flex-col px-10 py-4 gap-4 justify-between">
+    <main className="flex max-h-[calc(100vh-4rem)] flex-col px-10 py-4 gap-4 justify-between overflow-y-auto">
       <h1 className="text-xl text-slate-300 font-light">
         <span className="text-orange-500 font-semibold">PNL </span>position
         calculator
@@ -89,7 +109,7 @@ export default function Home() {
             />
             <Card
               title="Avg entry price"
-              value={totalAverage}
+              value={parseFloat(totalAverage.toFixed(toFixed))}
               moneySymbol
               color={false}
             />
@@ -105,12 +125,14 @@ export default function Home() {
       <div className="flex-grow">
         <Table pnls={pnls} />
       </div>
-      <button
-        onClick={() => dispatch(addTrade())}
-        className="bg-slate-50 text-slate-500 p-4 rounded-lg font-medium hover:bg-slate-100 hover:text-slate-600"
-      >
-        Add trade
-      </button>
+      <div className="fixed bottom-0 left-0 w-screen p-4 flex">
+        <button
+          onClick={() => dispatch(addTrade())}
+          className="w-full mx-auto box-border bg-slate-50 text-slate-500 p-4 rounded-lg font-medium hover:bg-slate-100 hover:text-slate-600"
+        >
+          Add trade
+        </button>
+      </div>
     </main>
   );
 }

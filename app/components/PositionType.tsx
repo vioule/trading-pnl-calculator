@@ -12,10 +12,12 @@ export default function PositionType() {
       ? "text-green-500 bg-green-100"
       : "text-red-500 bg-red-100") || "";
   return (
-    <div
-      className={`flex items-center uppercase font-bold text-2xl rounded-lg h-14 px-4 ${color}`}
-    >
-      {type}
-    </div>
+    type && (
+      <div
+        className={`flex items-center uppercase font-bold text-2xl rounded-lg h-14 px-4 ${color}`}
+      >
+        {type}
+      </div>
+    )
   );
 }
