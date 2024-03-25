@@ -9,7 +9,12 @@ export interface TradeState {
   amount: string;
 }
 
-const initialState: TradeState[] = [];
+let initialState: TradeState[] = [];
+
+const data = sessionStorage.getItem("data");
+if (data) {
+  initialState = JSON.parse(data).trades;
+}
 
 const tradesSlice = createSlice({
   name: "trades",

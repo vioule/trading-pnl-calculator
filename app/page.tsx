@@ -6,6 +6,7 @@ import { selectCurrentPrice } from "@/lib/features/currentPrice/currentPriceSlic
 import Card from "./components/Card";
 import CurrentAssetPrice from "./components/CurrentAssetPrice";
 import PositionType from "./components/PositionType";
+import { useEffect } from "react";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -83,6 +84,11 @@ export default function Home() {
   }
 
   const overallPnl = parseFloat((latentPnl + pnl).toFixed(2)) || 0;
+
+  useEffect(() => {
+    const data = JSON.stringify({ trades, currentPrice });
+    window.sessionStorage.setItem("data", data);
+  }, [trades, currentPrice]);
 
   return (
     <main className="flex max-h-[calc(100vh-4rem)] flex-col px-10 max-sm:px-5 py-4 gap-4 justify-between overflow-auto min-w-[300px]">
